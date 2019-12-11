@@ -11,7 +11,7 @@ class Api::ProductsController < ApplicationController
     if product.save
       render json: product 
     else
-      render json: { errors: product.errors }
+      render json: product.errors
     end
   end
 
@@ -35,6 +35,6 @@ class Api::ProductsController < ApplicationController
     end
 
     def product_params
-      params.require(:product).permit(:name, :description)
+      params.require(:product).permit(:name, :description, :price)
     end
 end

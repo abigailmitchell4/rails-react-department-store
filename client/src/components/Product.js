@@ -9,7 +9,7 @@ class Product extends React.Component {
   };
 
   componentDidMount() {
-    axios.get(`/api/menus/${this.props.id}/products`)
+    axios.get(`/api/departments/${this.props.id}/products`)
       .then( res => {
         this.setState({ products: res.data, });
       })
@@ -19,22 +19,22 @@ class Product extends React.Component {
   }
 
   render() {
-    const { name, description, price, } = this.state.product;
+    // const { name, description, price, } = this.state.product;
     return (
       <Card>
         <Card.Content>
-          <Header as="h1">{ name }</Header>
-          <Header as="h5" color="grey">${ price }</Header>
-          <p>{ description }</p>
+          <Header as="h1">{ this.props.name }</Header>
+          <Header as="h5" color="grey">${ this.props.price }</Header>
+          <p>{ this.props.description }</p>
         </Card.Content>
         <br />
         <br />
-        <Button 
+        {/* <Button 
           color="black" 
-          onClick={this.props.history.goBack}
+          // onClick={this.props.history.goBack}
         >
           Back
-        </Button>
+        </Button> */}
       </Card>
     )
   }

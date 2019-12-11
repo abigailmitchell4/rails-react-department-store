@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
 import DepartmentForm from "./DepartmentForm"
+import ProductForm from "./ProductForm"
 import ProductList from "./ProductList"
 import { Button, Header, Segment, Icon } from "semantic-ui-react";
 
@@ -8,16 +9,20 @@ class DepartmentView extends React.Component {
   state = { 
     products: [],
     department: {}, 
-    editing: false 
+    editing: false ,
+    showProductForm: false
   };
-
-  
 
   componentDidMount() {
     axios.get(`/api/departments/${this.props.match.params.id}`)
       .then( res => {
         this.setState({ department: res.data, });
       })
+    axios.get(`/api/departments/${this.props.match.params.id}/products`)
+    .then (res => {
+      this.setState({ products: res.data })
+      debugger
+    })
   }
 
   toggleEdit = () => {
@@ -36,12 +41,15 @@ class DepartmentView extends React.Component {
     this.setState({ department });
   }
 
-  addProduct = (name, description, price) => {
-    axios.post(`/api/menus/${this.props.id}/products`, { name }, {description}, {price})
+  addProduct = (name, price, description) => {
+    axios.post(`/api/departments/${this.props.match.params.id}/products`, {name}, {price}, {description})
       .then( res => {
         this.setState({ products: [...this.state.products, res.data], });
       })
+      debugger
   }
+
+  toggleProductForm = () => this.setState({ showProductForm: !this.state.showProductForm });
 
   render() {
     const { name, } = this.state.department;
@@ -60,10 +68,21 @@ class DepartmentView extends React.Component {
           <>
             <Segment>
               <Header as="h1">{ name }</Header>
-              <Button addProduct={() => {this.addProduct(this.name, this.description, this.price)}}>
+              <Button 
+                // addProduct={() => {this.addProduct(this.name, this.description, this.price)}}
+                onClick={ this.toggleProductForm }
+                >
                 Add Product
               </Button>
+
+              <Segment basic>
+                {/* <Button icon color="blue" onClick={ this.toggleForm }>
+                  <Icon name={ this.state.showForm ? "angle double up" : "angle double down"}/>
+                </Button> */}
+                { this.state.showProductForm ? <ProductForm addProduct={ this.addProduct }/> : null }
+              </Segment>
             </Segment>
+
             <ProductList 
               products={this.state.products}
               // removeProduct={this.removeProduct}
