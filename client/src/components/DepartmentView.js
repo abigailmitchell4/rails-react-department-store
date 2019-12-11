@@ -12,12 +12,14 @@ class DepartmentView extends React.Component {
         this.setState({ department: res.data, });
       })
   }
-  
+
   toggleEdit = () => {
     this.setState({editing: !this.state.editing})
   }
 
-  editDepartment = (id, department) => {
+  editDepartment = (department) => {
+    debugger
+    const id = this.props.match.params.id
     axios.put(`/api/departments/${id}`, {department})
     .then( res => {
       const department = this.state.department.map( d => {
