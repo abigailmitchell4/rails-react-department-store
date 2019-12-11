@@ -15,7 +15,7 @@ class ProductForm extends React.Component {
     //   this.setState({ ...this.defaultValues, }
     // );
 
-  handleSubmit = (e) => {
+  handleProductSubmit = (e) => {
     e.preventDefault();
     this.props.addProduct(this.state.name, this.state.price, this.state.description)
     this.setState({ name: "", price: "", description: "" })
@@ -25,21 +25,23 @@ class ProductForm extends React.Component {
   handleChange = (e) => {
     const { target: { name, value, } } = e
     this.setState({ [name]: value, })
+    debugger
   }
+//****** Check this */
 
   render() {
-    const { name, price, description, } = this.state
+    // const { name, price, description, } = this.state
 
     return(
       <div>
         <Header as="h1">Add New Product</Header>
-        <Form onSubmit={this.handleSubmit}>
-          <Form.Group widths="equal">
+        <Form onSubmit={this.handleProductSubmit}>
+          <Form.Group widths="equal" >
             <Form.Input 
               label="Name"
               name="name"
               placeholder="Name"
-              value={name}
+              value={this.state.name}
               onChange={this.handleChange}
               required
             />
@@ -48,7 +50,7 @@ class ProductForm extends React.Component {
               name="price"
               placeholder="Price"
               type="number"
-              value={price}
+              value={this.state.price}
               onChange={this.handleChange}
             />
           </Form.Group>
@@ -57,7 +59,7 @@ class ProductForm extends React.Component {
               label="Description"
               name="description"
               placeholder="Description"
-              value={description}
+              value={this.state.description}
               onChange={this.handleChange}
             />
           </Form.Group>

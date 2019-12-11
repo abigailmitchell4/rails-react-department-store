@@ -21,7 +21,6 @@ class DepartmentView extends React.Component {
     axios.get(`/api/departments/${this.props.match.params.id}/products`)
     .then (res => {
       this.setState({ products: res.data })
-      debugger
     })
   }
 
@@ -42,11 +41,11 @@ class DepartmentView extends React.Component {
   }
 
   addProduct = (name, price, description) => {
-    axios.post(`/api/departments/${this.props.match.params.id}/products`, {name}, {price}, {description})
+    axios.post(`/api/departments/${this.props.match.params.id}/products`, {name, price, description})
       .then( res => {
         this.setState({ products: [...this.state.products, res.data], });
+        debugger
       })
-      debugger
   }
 
   toggleProductForm = () => this.setState({ showProductForm: !this.state.showProductForm });

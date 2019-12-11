@@ -8,14 +8,21 @@ class Product extends React.Component {
     editingItem: false
   };
 
-  componentDidMount() {
-    axios.get(`/api/departments/${this.props.id}/products`)
+  // componentDidMount() {
+  //   axios.get(`/api/departments/${this.props.id}/products`)
+  //     .then( res => {
+  //       this.setState({ products: res.data, });
+  //     })
+  //     .catch( err => {
+  //       console.log(err);
+  //   })
+  // }
+  deleteProduct = (id) => {
+    axios.delete(`/api/departments/${id}/products`)
       .then( res => {
-        this.setState({ products: res.data, });
+        const { products, } = this.state;
+        this.setState({ products: products.filter(d => d.id !== id), })
       })
-      .catch( err => {
-        console.log(err);
-    })
   }
 
   render() {
