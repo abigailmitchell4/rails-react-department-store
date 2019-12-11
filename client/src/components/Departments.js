@@ -33,7 +33,7 @@ class Departments extends React.Component {
     return departments.map( department => (
       <div>
       
-      <Card>
+      <Card key={department.id}>
         <Card.Content>
           <Card.Header>{ department.name }</Card.Header>
         </Card.Content>
