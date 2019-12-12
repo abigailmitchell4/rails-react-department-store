@@ -18,14 +18,12 @@ class ProductForm extends React.Component {
   handleProductSubmit = (e) => {
     e.preventDefault();
     if (this.props.toggleEditProduct) {
-      debugger
       this.props.editProduct(this.state.name, this.state.price, this.state.description)
       this.props.toggleEditProduct()
     } else {
       this.props.addProduct(this.state.name, this.state.price, this.state.description)
       this.setState({ name: "", price: "", description: "" })
     }
-    debugger
   }
 
   handleChange = (e) => {

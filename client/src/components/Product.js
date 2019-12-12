@@ -14,13 +14,14 @@ class Product extends React.Component {
     debugger
   }
 
-  editProduct = (product) => {
+  editProduct = (name, price, description) => {
     // const idD = this.props.match.params.id
-    debugger
-    axios.put(`/api/departments/${this.props.idD}/products/${this.id}`, {product})
+    // const id = this.props.match.params.id
+    const product = {name, price, description}
+    axios.put(`/api/departments/${this.props.idD}/products/${this.props.id}`, {product})
     .then( res => {
     const product = this.state.product
-      if (product.idD === this.id)
+      if (product.id === this.props.id)
         return res.data
       return product
     })
@@ -29,14 +30,16 @@ class Product extends React.Component {
   }
 
   render() {
+    const { name, price, description } = this.state.product;
+
     return (
       <>
       {
       this.state.editingProduct ?
       <ProductForm 
         name={this.name} 
-        // price={this.price}
-        // description={this.description}
+        price={this.price}
+        description={this.description}
         id={this.id} 
         toggleEditProduct={this.toggleEditProduct}
         editProduct={this.editProduct}

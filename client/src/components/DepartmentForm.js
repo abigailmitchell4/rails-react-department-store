@@ -10,7 +10,6 @@ class DepartmentForm extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
     if (this.props.toggleEdit) {
-      debugger
       this.props.editDepartment(this.state)
       this.props.toggleEdit()
     }

@@ -11,6 +11,7 @@ const ProductList = (props) => (
         key={product.id} {...product}
         deleteProduct={props.deleteProduct}
         // editProduct={props.editProduct}
+      idD={props.idD}
       />
     ))
     }

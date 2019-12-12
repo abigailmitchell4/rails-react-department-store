@@ -38,6 +38,7 @@ class DepartmentView extends React.Component {
       return department
     })
     this.setState({ department });
+    debugger
   }
 
   addProduct = (name, price, description) => {
@@ -60,7 +61,7 @@ class DepartmentView extends React.Component {
   toggleProductForm = () => this.setState({ showProductForm: !this.state.showProductForm });
 
   render() {
-    const { name, } = this.state.department;
+    const { name } = this.state.department;
 
     return (
       <div>
