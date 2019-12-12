@@ -3,6 +3,7 @@ import axios from "axios";
 import DepartmentForm from "./DepartmentForm"
 import ProductForm from "./ProductForm"
 import ProductList from "./ProductList"
+import styled from "styled-components";
 import { Button, Header, Segment, Icon } from "semantic-ui-react";
 
 class DepartmentView extends React.Component {
@@ -75,23 +76,45 @@ class DepartmentView extends React.Component {
           /> 
           :
           <>
-            <Segment>
+           <br/>
+           <SegmentPadding >
               <Header as="h1">{ name }</Header>
               <Button 
-                // addProduct={() => {this.addProduct(this.name, this.description, this.price)}}
-                onClick={ this.toggleProductForm }
+                color="black" 
+                size="tiny"
+                onClick={this.props.history.goBack}
+                icon="arrow circle left"
                 >
-                Add Product
-              </Button>
-
+                  
+                </Button> 
+                <Button
+                  icon
+                  color="teal"
+                  size="mini"
+                  style={{ marginLeft: "15px"}}
+                  onClick={this.toggleEdit}
+                >
+                <Icon name="edit"/>
+                </Button>
+              
+              
               <Segment basic>
                 {/* <Button icon color="blue" onClick={ this.toggleForm }>
                   <Icon name={ this.state.showForm ? "angle double up" : "angle double down"}/>
                 </Button> */}
                 { this.state.showProductForm ? <ProductForm addProduct={ this.addProduct }/> : null }
               </Segment>
-            </Segment>
-
+              </SegmentPadding>
+               <Button 
+               onClick={ this.toggleProductForm }
+               circular
+               icon="plus"
+               color="pink"
+               
+               >
+              </Button>
+              <br/>
+              <br/>
             <ProductList 
               products={this.state.products}
               deleteProduct={this.deleteProduct}
@@ -102,24 +125,15 @@ class DepartmentView extends React.Component {
         }
         <br />
         <br />
-        <Button 
-          color="black" 
-          onClick={this.props.history.goBack}
-        >
-          Back
-        </Button> 
-        <Button
-          icon
-          color="green"
-          size="tiny"
-          style={{ marginLeft: "15px"}}
-          onClick={this.toggleEdit}
-        >
-        <Icon name="edit"/>
-        </Button>
       </div>
     )
   }
 }
+
+const SegmentPadding = styled(Segment)`
+ 
+  border: none !important;
+`
+
 
 export default DepartmentView;

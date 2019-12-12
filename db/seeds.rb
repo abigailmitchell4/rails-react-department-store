@@ -8,7 +8,7 @@ require 'faker'
   100.times do
    department.products.create(
       name: Faker::Commerce.product_name,
-      description: Faker::Lorem.sentence,
+      description: Faker::TvShows::MichaelScott.quote,
       price: Faker::Commerce.price.to_f
       # department_id: department.id
     )

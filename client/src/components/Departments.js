@@ -1,7 +1,8 @@
 import React from "react";
 import axios from "axios";
 import { Link, } from "react-router-dom";
-import { Card, Icon, Button, Header} from "semantic-ui-react";
+import styled from "styled-components";
+import { Card, Icon, Button, Header,} from "semantic-ui-react";
 
 class Departments extends React.Component {
   state = { 
@@ -33,7 +34,7 @@ class Departments extends React.Component {
     return departments.map( department => (
       <div>
       
-      <Card key={department.id}>
+      <CardWidth key={department.id}>
         <Card.Content>
           <Card.Header>{ department.name }</Card.Header>
         </Card.Content>
@@ -50,7 +51,7 @@ class Departments extends React.Component {
             <Icon name="trash"/>
           </Button >
         </Card.Content>
-      </Card>
+      </CardWidth>
       
       </div>
     )
@@ -73,5 +74,10 @@ class Departments extends React.Component {
     )
   }
 }
+
+const CardWidth = styled(Card)`
+width: 200px !important;
+margin: 15px !important;
+`
 
 export default Departments;

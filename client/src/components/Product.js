@@ -15,8 +15,6 @@ class Product extends React.Component {
   }
 
   editProduct = (name, price, description) => {
-    // const idD = this.props.match.params.id
-    // const id = this.props.match.params.id
     const product = {name, price, description}
     axios.put(`/api/departments/${this.props.idD}/products/${this.props.id}`, {product})
     .then( res => {
@@ -25,13 +23,10 @@ class Product extends React.Component {
         return res.data
       return product
     })
-    debugger
     this.setState({ product });
   }
 
   render() {
-    const { name, price, description } = this.state.product;
-
     return (
       <>
       {
