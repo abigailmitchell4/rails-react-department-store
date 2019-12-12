@@ -44,8 +44,17 @@ class DepartmentView extends React.Component {
     axios.post(`/api/departments/${this.props.match.params.id}/products`, {name, price, description})
       .then( res => {
         this.setState({ products: [...this.state.products, res.data], });
-        debugger
+       
       })
+  }
+
+  deleteProduct = (id) => {
+    axios.delete(`/api/departments/${this.props.match.params.id}/products/${id}`)
+      .then( res => {
+        const { products, } = this.state;
+        this.setState({ products: products.filter(p => p.id !== id), })
+      })
+     
   }
 
   toggleProductForm = () => this.setState({ showProductForm: !this.state.showProductForm });
@@ -84,8 +93,9 @@ class DepartmentView extends React.Component {
 
             <ProductList 
               products={this.state.products}
-              // removeProduct={this.removeProduct}
+              deleteProduct={this.deleteProduct}
               // editProduct={this.editProduct}
+              idD={this.props.match.params.id}
             />
           </>
         }

@@ -9,7 +9,7 @@ const ProductList = (props) => (
     props.products.map( product => (
       <Product
         key={product.id} {...product}
-        // removeProduct={props.removeProduct}
+        deleteProduct={props.deleteProduct}
         // editProduct={props.editProduct}
       />
     ))
