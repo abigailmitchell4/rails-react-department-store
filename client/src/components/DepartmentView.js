@@ -1,72 +1,100 @@
 import React from "react";
 import axios from "axios";
-import DepartmentForm from "./DepartmentForm"
-import ProductForm from "./ProductForm"
-import ProductList from "./ProductList"
+import { Link } from "react-router-dom";
+// import DepartmentForm from "./DepartmentForm"
+// import ProductForm from "./ProductForm"
+// import ProductList from "./ProductList"
 import styled from "styled-components";
-import { Button, Header, Segment, Icon } from "semantic-ui-react";
+import { Button, Header, Segment, Icon, Card } from "semantic-ui-react";
 
 class DepartmentView extends React.Component {
   state = { 
     products: [],
     department: {}, 
-    editing: false ,
-    showProductForm: false
+    // editing: false ,
+    // showProductForm: false
   };
 
   componentDidMount() {
-    axios.get(`/api/departments/${this.props.match.params.id}`)
+    const { id } = this.props.match.params
+    axios.get(`/api/departments/${id}`)
       .then( res => {
         this.setState({ department: res.data, });
       })
-    axios.get(`/api/departments/${this.props.match.params.id}/products`)
+    axios.get(`/api/departments/${id}/products`)
     .then (res => {
       this.setState({ products: res.data })
     })
   }
 
-  toggleEdit = () => {
-    this.setState({editing: !this.state.editing})
-  }
+  // toggleEdit = () => {
+  //   this.setState({editing: !this.state.editing})
+  // }
 
-  editDepartment = (department) => {
-    const id = this.props.match.params.id
-    axios.put(`/api/departments/${id}`, {department})
-    .then( res => {
-      const department = this.state.department
-      if (department.id === id)
-        return res.data
-      return department
-    })
-    this.setState({ department });
-    debugger
-  }
+  // editDepartment = (department) => {
+  //   const id = this.props.match.params.id
+  //   axios.put(`/api/departments/${id}`, {department})
+  //   .then( res => {
+  //     const department = this.state.department
+  //     if (department.id === id)
+  //       return res.data
+  //     return department
+  //   })
+  //   this.setState({ department });
+  //   debugger
+  // }
 
-  addProduct = (name, price, description) => {
-    axios.post(`/api/departments/${this.props.match.params.id}/products`, {name, price, description})
-      .then( res => {
-        this.setState({ products: [...this.state.products, res.data], });
+  // addProduct = (name, price, description) => {
+  //   axios.post(`/api/departments/${this.props.match.params.id}/products`, {name, price, description})
+  //     .then( res => {
+  //       this.setState({ products: [...this.state.products, res.data], });
        
-      })
-  }
+  //     })
+  // }
 
-  deleteProduct = (id) => {
-    axios.delete(`/api/departments/${this.props.match.params.id}/products/${id}`)
-      .then( res => {
-        const { products, } = this.state;
-        this.setState({ products: products.filter(p => p.id !== id), })
-      })
+  // deleteProduct = (id) => {
+  //   axios.delete(`/api/departments/${this.props.match.params.id}/products/${id}`)
+  //     .then( res => {
+  //       const { products, } = this.state;
+  //       this.setState({ products: products.filter(p => p.id !== id), })
+  //     })
      
+  // }
+
+  listProducts = () => {
+    const { id, } = this.props.match.params
+    return this.state.products.map(p => (
+      <div style={{ marginTop: '40px', padding: '20px'}}>
+        <Link to={`/departments/${id}/products/${p.id}`}>
+          <Card style={{ height: "fit-content", width: '300px', textAlign: 'center', padding: '25px', color: 'black' }}>
+            <h3>{p.name}</h3>
+            <Card.Content>
+              ${p.price}
+            </Card.Content>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignContent: 'center',
+                marginTop: '20px',
+              }}
+            >
+              {p.description}
+            </div>
+          </Card>
+        </Link>
+      </div>
+    ))
   }
 
-  toggleProductForm = () => this.setState({ showProductForm: !this.state.showProductForm });
+  // toggleProductForm = () => this.setState({ showProductForm: !this.state.showProductForm });
 
   render() {
-    const { name } = this.state.department;
-
+    const { name, id } = this.state.department;
+    // const { id } = this.props.match.params
     return (
       <div>
-        {
+        {/* {
           this.state.editing ?
           <DepartmentForm 
             name={this.name} 
@@ -74,7 +102,7 @@ class DepartmentView extends React.Component {
             toggleEdit={this.toggleEdit}
             editDepartment={this.editDepartment}
           /> 
-          :
+          : */}
           <>
            <br/>
            <SegmentPadding >
@@ -87,42 +115,43 @@ class DepartmentView extends React.Component {
                 >
                   
                 </Button> 
-                <Button
-                  icon
-                  color="teal"
-                  size="mini"
-                  style={{ marginLeft: "15px"}}
-                  onClick={this.toggleEdit}
-                >
-                <Icon name="edit"/>
-                </Button>
+                <Link to={`/departments/${id}/edit`}>
+                  <Button
+                    icon
+                    color="teal"
+                    size="mini"
+                    style={{ marginLeft: "15px"}}
+                    // onClick={this.toggleEdit}
+                  >
+                  <Icon name="edit"/>
+                  </Button>
+                </Link>
               
-              
-              <Segment basic>
-                {/* <Button icon color="blue" onClick={ this.toggleForm }>
-                  <Icon name={ this.state.showForm ? "angle double up" : "angle double down"}/>
-                </Button> */}
-                { this.state.showProductForm ? <ProductForm addProduct={ this.addProduct }/> : null }
-              </Segment>
-              </SegmentPadding>
-               <Button 
-               onClick={ this.toggleProductForm }
-               circular
-               icon="plus"
-               color="pink"
-               
-               >
+              {/* <Segment basic>
+                { { this.state.showProductForm ? <ProductForm addProduct={ this.addProduct }/> : null } 
+              </Segment> */}
+            </SegmentPadding>
+            <Link to={`/departments/${id}/products/new`}>
+              <Button 
+              // onClick={ this.toggleProductForm }
+              circular
+              icon="plus"
+              color="pink"
+              >
               </Button>
+            </Link>
+          
               <br/>
-              <br/>
-            <ProductList 
+            {/* <ProductList 
               products={this.state.products}
               deleteProduct={this.deleteProduct}
               // editProduct={this.editProduct}
-              idD={this.props.match.params.id}
-            />
+              id={id}
+            /> */}
+            <Card.Group productsPerRow={3}>
+            {this.listProducts()}
+          </Card.Group>
           </>
-        }
         <br />
         <br />
       </div>
@@ -131,7 +160,6 @@ class DepartmentView extends React.Component {
 }
 
 const SegmentPadding = styled(Segment)`
- 
   border: none !important;
 `
 

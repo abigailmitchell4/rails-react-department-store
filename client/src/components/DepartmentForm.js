@@ -9,9 +9,15 @@ class DepartmentForm extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    if (this.props.toggleEdit) {
-      this.props.editDepartment(this.state)
-      this.props.toggleEdit()
+    const department = { ...this.state }
+    const { match: { params: { id } }, history: { push } } = this.props
+    // if (this.props.toggleEdit) {
+    //   this.props.editDepartment(this.state)
+    //   this.props.toggleEdit()
+    // }
+    if (id) {
+      axios.put(`/api/departments/${id}`, department)
+      .then(res => push(`/departments/${id}`))
     }
     else {
       const department = { ...this.state, };
@@ -23,7 +29,6 @@ class DepartmentForm extends React.Component {
     }
   }
 
-
   handleChange = (e) => {
     const { target: { name, value, } } = e;
     this.setState({ [name]: value, });
@@ -31,10 +36,15 @@ class DepartmentForm extends React.Component {
 
   render() {
     const { name,} = this.state;
-
+    const { id } = this.props.match.params
     return (
       <div>
-        <Header as="h1">New Department</Header>
+        {
+          id ?
+          <Header as="h1">Edit Department</Header>
+          :
+          <Header as="h1">New Department</Header>
+        }
         <Form onSubmit={this.handleSubmit}>
           <Form.Group widths="equal">
             <Form.Input
